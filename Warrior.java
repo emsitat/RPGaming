@@ -7,13 +7,12 @@ public class Warrior extends Hero {
     @Override
     public void useUltimate(Character target) {
         if (canUseUltimate()) {
-            setProt(getProt() + 0.1);  //  10% PROT
 
             // dame increased
             int damage = (int) (getPhysicalDamage() * 1.5);
             target.takeDamage(damage);
 
-            System.out.println(getName() + " executes a forward slam, dealing " + damage + " damage and gaining 10% PROT.");
+            System.out.println(getName() + " executes a forward slam, dealing " + damage +"damage");
             setMana(0); // Reset  
         } else {
             System.out.println(getName() + " does not have enough mana to use the ultimate.");

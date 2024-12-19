@@ -1,8 +1,6 @@
-public class Gargoyle extends MiniBoss {
-	private double prot;
+public class Gargoyle extends Boss {
     public Gargoyle() {
-        super("Gargoyle", 2078, 40, 0, 1);
-        this.prot = 0.1;
+        super("Gargoyle", 2078, 40, 0, 1, 0.1);
     }
 
     @Override
@@ -10,17 +8,11 @@ public class Gargoyle extends MiniBoss {
         System.out.println(getName() + " slams, dealing " + getPhysicalDamage() + " damage.");
         target.takeDamage(getPhysicalDamage());
     }
-    
-    @Override
-    public void takeDamage(int damage) {
-        int reducedDamage = (int) (damage * (1 - prot));  
-        super.takeDamage(reducedDamage);  
-    }    
-    
-    //chưa fix time 
+
     @Override
     public void useSkill1(Character target) {
-        prot = prot +0.1;
+        double newProt = getProt() + 0.1; // Tăng 10% PROT
+        setProt(Math.min(newProt, 1.0)); // Đảm bảo PROT không vượt quá 100%
         System.out.println(getName() + " uses Hardening, permanently gaining 10% PROT.");
     }
 
@@ -29,4 +21,5 @@ public class Gargoyle extends MiniBoss {
         System.out.println(getName() + " uses Slam, dealing 80 flat damage to all enemies.");
         target.takeDamage(80);
     }
+
 }

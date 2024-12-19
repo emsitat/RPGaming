@@ -1,19 +1,25 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-public class Asgore extends MiniBoss {
-    private double prot;
+public class Asgore extends Boss {
     private int mana;
     private List<Character> cursedEnemies = new ArrayList<>();
     private static final int MAX_MANA = 30;
     private static final int FIRE_DAMAGE = 40;
 
+    private ScheduledExecutorService timerExecutor;
+    private int timeLeft = 60; // Thời gian còn lại (600 giây = 10 phút)
+    private boolean isBattleOver = false;
+
     public Asgore() {
-        super("Asgore", 100, 0, 40, 1);
-        this.prot = 1.0;  // 100% PROT
-        this.mana = 0; 
+        super("Asgore", 100, 0, 40, 1,1.0);
+        this.mana = 0;
+        startTimer();
     }
-    
+
     @Override
     public void useSkill1(Character target) {
         if (mana >= 20) {
@@ -37,7 +43,7 @@ public class Asgore extends MiniBoss {
 
     @Override
     public void takeDamage(int damage) {
-        int reducedDamage = (int) (damage * (1 - prot));
+        int reducedDamage = (int) (damage * (1 - this.getProt()));
         if (reducedDamage > 0) {
             super.takeDamage(reducedDamage);
         } else {
@@ -58,5 +64,41 @@ public class Asgore extends MiniBoss {
             mana++;
             System.out.println(getName() + " regenerates 1 mana. Current mana: " + mana + "/" + MAX_MANA);
         }
+    }
+
+    // Bộ đếm thời gian
+    private void startTimer() {
+        timerExecutor = Executors.newScheduledThreadPool(1);
+
+        Runnable task = () -> {
+            if (!isBattleOver) {
+                timeLeft--;
+                System.out.println("Time left: " + timeLeft + " seconds");
+
+                if (timeLeft <= 0) {
+                    isBattleOver = true;
+                    System.out.println("Time's up! The player survives and wins the battle!");
+                    stopTimer();
+                }
+            }
+        };
+
+        // Chạy nhiệm vụ mỗi giây
+        timerExecutor.scheduleAtFixedRate(task, 0, 1, TimeUnit.SECONDS);
+    }
+
+    private void stopTimer() {
+        if (timerExecutor != null && !timerExecutor.isShutdown()) {
+            timerExecutor.shutdown();
+        }
+    }
+
+    public void endBattle() {
+        isBattleOver = true;
+        stopTimer();
+        System.out.println("The battle has ended!");
+    }
+    public boolean isDead() {
+        return getHp() <= 0;
     }
 }

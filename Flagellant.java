@@ -1,16 +1,21 @@
 public class Flagellant extends Hero {
     private long lastUltimateUseTime;
     private boolean inBattle;
-    private int maxhp;
+    private int maxhp; // Maximum HP of the Flagellant
 
-    public Flagellant(String name, int hp, int physicalDamage, int magicPower, int level, double prot, int maxMana,int maxhp) {
+    public Flagellant(String name, int hp, int physicalDamage, int magicPower, int level, double prot, int maxMana, int maxhp) {
         super(name, hp, physicalDamage, magicPower, level, prot, maxMana);
-        this.lastUltimateUseTime = 0; // thời gian cooldown cho Ulti
-        this.inBattle = true; 
-        this.maxhp = maxhp;
+        this.lastUltimateUseTime = 0; // Cooldown for ultimate
+        this.inBattle = true;
+        this.maxhp = maxhp; // Assign maximum HP
     }
 
-    // Basic Attack: Sử dụng 1 HP để tấn công
+    // Getter for maxhp
+    public int getMaxHP() {
+        return maxhp;
+    }
+
+    // Basic Attack: Uses 1 HP to attack
     @Override
     public void basicAttack(Character target) {
         if (getHp() > 1) {  
@@ -25,46 +30,43 @@ public class Flagellant extends Hero {
     
     @Override
     public void useUltimate(Character target) {
-        // Kiểm tra điều kiện cooldown
+        // Check cooldown for ultimate
         if (canUseUltimate()) {
-            if (getHp() < maxhp * 0.3) {  // Nếu HP dưới 30%
-                int hpRecovered = (int) ((maxhp - getHp()) * 0.4);  // Hồi phục 40% HP đã mất
+            if (getHp() < maxhp * 0.3) {  // If HP is below 30%
+                int hpRecovered = (int) ((maxhp - getHp()) * 0.4);  // Recover 40% of missing HP
                 setHp(getHp() + hpRecovered);
                 System.out.println(getName() + " recovers " + hpRecovered + " HP.");
 
-                int magicDamage = 100;  // Gây 100 magic damage
+                int magicDamage = 100;  // Deals 100 magic damage
                 target.takeDamage(magicDamage);
                 System.out.println(getName() + " deals " + magicDamage + " magic damage to " + target.getName());
             }
-            lastUltimateUseTime = System.currentTimeMillis();  // Đặt thời gian sử dụng ultimate
+            lastUltimateUseTime = System.currentTimeMillis();  // Record the ultimate usage time
         } else {
             System.out.println(getName() + "'s ultimate is on cooldown.");
         }
     }
 
-    // Kiểm tra xem ultimate có thể được sử dụng hay không
+    // Check if the ultimate can be used
     public boolean canUseUltimate() {
         long currentTime = System.currentTimeMillis();
-        return currentTime - lastUltimateUseTime >= 180000;  // 180000ms = 3 phút cooldown
+        return currentTime - lastUltimateUseTime >= 180000;  // 180,000ms = 3 minutes cooldown
     }
 
-    // Passive: Hồi phục 2 HP mỗi 10 giây khi trong trận chiến
+    // Passive: Regenerate 2 HP every 10 seconds during battle
     public void regenerateHealth() {
         if (inBattle) {
-            setHp(getHp() + 2);  // Hồi phục 2 HP
+            setHp(Math.min(getHp() + 2, maxhp));  // Regenerate 2 HP but don't exceed max HP
             System.out.println(getName() + " regenerates 2 HP. Current HP: " + getHp());
         }
     }
 
-    // Gọi phương thức này mỗi 10 giây để kích hoạt Passive trong trận chiến
+    // Trigger this method every 10 seconds to activate passive during battle
     public void battleTick() {
         regenerateHealth();
     }
-    
-    //for (int i = 0; i < 5; i++) {
-        //flagellant.battleTick();  // Simulate a battle tick every 10 seconds
 
-    // Cập nhật trạng thái khi ra khỏi trận chiến
+    // End the battle and stop regeneration
     public void endBattle() {
         inBattle = false;
     }
@@ -84,6 +86,9 @@ public class Flagellant extends Hero {
             int index = getLevel() - 1;
             setHp(statTable[index][0]);
             setMagicPower(statTable[index][1]);
+
+            // Update maxhp to reflect the new max HP after level up
+            maxhp = statTable[index][0];
 
             System.out.println(getName() + " leveled up to " + getLevel() + "!");
         } else {

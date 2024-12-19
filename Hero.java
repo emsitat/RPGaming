@@ -20,7 +20,7 @@ public abstract class Hero extends Character {
     public void basicAttack(Character target) {
         super.basicAttack(target);
         mana++;  // Hero tăng mana sau mỗi dame
-        System.out.println(name + " gains 1 mana. Current mana: " + mana + "/" + maxMana);
+        System.out.println(this.getName() + " gains 1 mana. Current mana: " + mana + "/" + maxMana);
     }
     
     // Check if ultimate can be used
@@ -57,13 +57,12 @@ public abstract class Hero extends Character {
 	}
 	@Override
 	public void displayCharacterInfo() {
-	       System.out.println("Name: " + name);
-	       System.out.println("Level: " + level);
-	       System.out.println("HP: " + hp);
-	       System.out.println("Physical Damage: " + physicalDamage);
-	       System.out.println("Magic Power: " + magicPower);
+	       System.out.println("Name: " + this.getName());
+	       System.out.println("Level: " + this.getLevel());
+	       System.out.println("HP: " + this.getHp());
+	       System.out.println("Physical Damage: " + this.getPhysicalDamage());
+	       System.out.println("Magic Power: " + this.getMagicPower());
 	       System.out.println("Max mana " +maxMana);
-	       System.out.println("Magic Power: " + magicPower);
 	       System.out.println("Prot " + prot*100 +"%");
 	       
 	    }

@@ -22,7 +22,5 @@ public abstract class Boss extends Character {
         int reducedDamage = (int) (damage * (1 - getProt()));
         super.takeDamage(reducedDamage);
     }
-
-    public abstract void usePassive();
 }
 

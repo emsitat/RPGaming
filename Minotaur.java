@@ -1,7 +1,7 @@
-public class Minotaur extends MiniBoss {
+public class Minotaur extends Boss {
 
     public Minotaur() {
-        super("Minotaur", 1378, 47, 0, 1);
+        super("Minotaur", 1378, 47, 0, 1,0);
     }
 
     @Override

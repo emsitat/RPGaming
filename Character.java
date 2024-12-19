@@ -1,9 +1,9 @@
 public abstract class Character {
-    protected String name;
-    protected int hp;
-    protected int physicalDamage;
-    protected int magicPower;
-    protected int level;
+    private String name;
+    private int hp;
+    private int physicalDamage;
+    private int magicPower;
+    private int level;
 
     public Character(String name, int hp, int physicalDamage, int magicPower, int level) {
         this.name = name;

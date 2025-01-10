@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Asgore extends Boss {
     private int mana;
-    private List<Character> cursedEnemies = new ArrayList<>();
+    private List<Character> cursedEnemies = new ArrayList<>(); //tính kết tập
     private static final int MAX_MANA = 30;
     private static final int FIRE_DAMAGE = 40;
 

@@ -2,7 +2,7 @@
 import java.util.concurrent.*;
 
 public class Crusader extends Hero {
-    private ScheduledExecutorService protScheduler;
+    private ScheduledExecutorService protScheduler; //cũng có thể xem là kết tập
     private ScheduledExecutorService countdownScheduler;
 
     private double baseProt; // Store original PROT

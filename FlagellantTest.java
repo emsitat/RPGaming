@@ -3,9 +3,9 @@ import java.util.TimerTask;
 
 public class FlagellantTest {
     public static void main(String[] args) {
-        // Create a Flagellant hero and an enemy (e.g., a Goblin)
+        // Create a Flagellant hero and an enemy 
         Flagellant flagellant = new Flagellant("Flagellant", 90, 5, 20, 1, 0.1, 100, 90);
-        Mob goblin = new Goblin();
+        Highwayman player = new Highwayman("tat", 130, 20, 0, 5,0.1, 20);
 
         System.out.println("Battle starts!");
 
@@ -23,18 +23,18 @@ public class FlagellantTest {
 
         // Simulate a battle loop
         int turn = 1;
-        while (flagellant.getHp() > 0 && goblin.getHp() > 0) {
+        while (flagellant.getHp() > 0 && player.getHp() > 0) {
             System.out.println("\n--- Turn " + turn + " ---");
 
             // Flagellant performs a basic attack
-            flagellant.basicAttack(goblin);
-            if (goblin.getHp() <= 0) {
+            flagellant.basicAttack(player);
+            if (player.getHp() <= 0) {
                 System.out.println("The Goblin has been defeated!");
                 break;
             }
 
             // Goblin attacks Flagellant
-            goblin.basicAttack(flagellant);
+            player.basicAttack(flagellant);
             if (flagellant.getHp() <= 0) {
                 System.out.println("Flagellant has fallen!");
                 break;
@@ -42,7 +42,7 @@ public class FlagellantTest {
 
             // Use ultimate if conditions are met
             if (flagellant.canUseUltimate() && flagellant.getHp() < flagellant.getMaxHP() * 0.3) {
-                flagellant.useUltimate(goblin);
+                flagellant.useUltimate(player);
             }
 
             // Increment turn

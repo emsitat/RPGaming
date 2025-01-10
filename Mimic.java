@@ -2,7 +2,7 @@
 public class Mimic extends MagicMob {
 
 	public Mimic() {
-		super("mimic",32,2,30,1);
+		super("mimic",320,2,30,1);
 	}
 
 }
